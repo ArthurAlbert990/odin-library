@@ -3,10 +3,14 @@ console.log('js working')
 let myLibrary = [];
 
 
-function Book(title,author,pages,alreadyRead){
+function Book(title,author,pages,year,alreadyRead=false){
     //constructor
     //"construct a book object"
-    //add object to myLibrary array
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.year = year;
+    this.alreadyRead = alreadyRead;
 }
 
 function addBookToLibrary(){
