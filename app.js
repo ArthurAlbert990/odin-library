@@ -13,12 +13,6 @@ function Book(title,author,pages,year,alreadyRead=false){
     this.alreadyRead = alreadyRead;
 }
 
-function addModal(){
-    console.log('addModal')
-    //modal to collect user inputs
-    //pass to addBooktToLibrary function
-}
-
 function addBookToLibrary(){
     //pass book to Book constructor function using user input.
 }
@@ -43,19 +37,30 @@ function editBook(e){
     console.log('edit book')
 }
 
+function toggleModal(){
+    console.log('toggle modal')
+    modal.classList.toggle('show-modal')
+    //modal to collect user inputs
+    //pass to addBooktToLibrary function
+}
+
 //BINDING
 // selectors
-const addButton = document.querySelectorAll('.add-btn')
+const modal = document.querySelector('.modal')
+const closeModal = document.querySelector('.close-btn')
+const addBook = document.querySelector('.add-book')
 const deleteButtons = document.querySelectorAll('.del-btn')
 const editButtons = document.querySelectorAll('.edit-btn')
 
 //bind events
-addButton.addEventListener('click',addModal)
+addBook.addEventListener('click', toggleModal)
+closeModal.addEventListener('click', toggleModal)
+
 
 deleteButtons.forEach(element => {
-    element.addEventListener('click',deleteBook)    
+    element.addEventListener('click', deleteBook)    
 });
 
 editButtons.forEach(element => {
-    element.addEventListener('click',editBook)
+    element.addEventListener('click', editBook)
 })
