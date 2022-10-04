@@ -197,8 +197,8 @@ button{
     padding: 0.5rem;
     margin-top: 1.5rem;
 }
-/* SWITCH FOR MODAL */
-.read-switch{
+/* read checkbox*/
+.read-checkbox{
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -206,7 +206,7 @@ button{
     margin-top: 1rem;
     gap: 1rem
 }
-.read-switch > input{
+.read-checkbox > input{
     height: 1rem;
     width: 1rem;
 }
