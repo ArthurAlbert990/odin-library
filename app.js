@@ -14,7 +14,6 @@ function Book(title,author,pages,year,alreadyRead=false){
 }
 
 function addBookToLibrary(){
-    console.log('add book to library')
     const modalFormData = new FormData(form);
     
     const title = modalFormData.get('ftitle');
@@ -30,12 +29,14 @@ function addBookToLibrary(){
     myLibrary.push(newBook);
     //console.log(newBook);
     clearModal(modalFormData);
+    updateBooksDisplay();
     toggleModal();
 
     return newBook;
 }
 
-function clearModal(formFieldsData){
+function clearModal(){
+    let formFieldsData = new FormData(form);
     let field;
     for(let parameter of formFieldsData.entries()){
         field = document.querySelector(`#${parameter[0]}`)
@@ -44,17 +45,16 @@ function clearModal(formFieldsData){
 }
 
 function updateBooksDisplay(){
-    console.log('updateBooksDisplay')
     //clear table, empty start:
     tbody.innerHTML=''
     //insert books from db:
     let newRow;
     let newCell;
     for(let book of myLibrary){
-        newRow = tbody.insertRow(0)//new row at beginning
+        newRow = tbody.insertRow(-1)//new row at end
         //insert cells for each value of book 
         for(let value of Object.values(book)){
-            newCell = newRow.insertCell()
+            newCell = newRow.insertCell(-1)
             newCell.innerHTML = value;
         }
         //insert buttons at end
@@ -75,27 +75,30 @@ function updateBooksDisplay(){
 }
 
 function deleteBook(e){
-    console.log(e)
     //obtain element parents until tr
     let td = e.target.parentNode;
     let tr = td.parentNode;
     //delete tr child element from tbody
     //tr.parentNode = <tbody>
-    console.log(`tr index to remove:${tr.rowIndex}`)
-    myLibrary.splice(tr.rowIndex-1,tr.rowIndex-1)
+    //console.log(`tr index to remove:${tr.rowIndex}`)
+    myLibrary.splice(tr.rowIndex-2,tr.rowIndex-2)
     tr.parentNode.removeChild(tr);
-    
-
-    //it should delete from the "db" list "myLibrary" too.
-    //how to obtain a reference to delete/edit? Like a index?
 }
 
-function editBook(){
-    console.log('edit book')
+function editBook(e){
+    console.log('edit book:');
+    let td = e.target.parentNode;
+    let tr = td.parentNode;
+    let book = myLibrary[tr.rowIndex-2];
+    modalTitle.value = book.title;
+    modalAuthor.value = book.author;
+    modalPages.value = book.pages;
+    modalYear.value = book.year;
+    modalCheckbox.checked = book.alreadyRead;
+    toggleModal()
 }
 
 function toggleModal(){
-    console.log('toggle modal')
     modal.classList.toggle('show-modal')
 }
 
@@ -108,12 +111,19 @@ const deleteButtons = document.querySelectorAll('.del-btn');
 const editButtons = document.querySelectorAll('.edit-btn');
 const form = document.querySelector('.form-addbook');
 const tbody = document.querySelector('.bookDisplay');
-const table = document.querySelector('.books-table')
+const table = document.querySelector('.books-table');
+const modalTitle= document.querySelector('#ftitle')
+const modalAuthor= document.querySelector('#fauthor')
+const modalPages= document.querySelector('#fpage')
+const modalYear= document.querySelector('#fyear')
+const modalCheckbox = document.querySelector('#checkbox')
 
 //bind events
 addBook.addEventListener('click', toggleModal)
 confirmButtonModal.addEventListener('click',addBookToLibrary)
+confirmButtonModal.addEventListener('click',clearModal)
 closeModal.addEventListener('click', toggleModal)
+closeModal.addEventListener('click', clearModal)
 
 
 
@@ -125,7 +135,11 @@ editButtons.forEach(element => {
     });
 
 
-//OQUE FALTA IMPLEMENTAR:
-//função deleteBook() ainda não deleta do db
-//função editBook()
+//inicia já com um registro:
+let startBook = new Book('The Lord of The Rings 1','J.R.R. Tolkien','475',2001,true)
+myLibrary.push(startBook)
+updateBooksDisplay()
 
+//OQUE FALTA IMPLEMENTAR:
+//Finalizar função editBook, ainda não edita da db.
+//Botão para se já foi lido ou não
