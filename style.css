@@ -74,6 +74,7 @@ header{
 
 .books-table{
     border-collapse: collapse;
+    min-width: 50vw;
 }
 .books-table td{
     padding: 5px 25px;
@@ -83,6 +84,7 @@ header{
 }
 .books-table tbody tr{
     border-bottom: 1px solid whitesmoke;
+    height: 1.25rem;
 }
 .books-table tbody tr:nth-of-type(even) {
     background-color: whitesmoke;
