@@ -28,7 +28,7 @@ function addBookToLibrary(){
     // push to "db":
     myLibrary.push(newBook);
     //console.log(newBook);
-    clearModal();
+    //clearModal();
     updateBooksDisplay();
     toggleModal();
 
@@ -108,17 +108,20 @@ function updateBook(bookIndex){
     myLibrary[bookIndex]['pages'] = modalPages.value;
     myLibrary[bookIndex]['year'] = modalYear.value;
     myLibrary[bookIndex]['alreadyRead'] = modalCheckbox.checked;
-    confirmButtonModal.removeEventListener('click',updateBook);
-    confirmButtonModal.removeEventListener('click',clearModal)
+    // confirmButtonModal.removeEventListener('click',updateBook);
+    // confirmButtonModal.removeEventListener('click',clearModal)
+    confirmButtonModal.replaceWith(confirmButtonModal.cloneNode(true))
     myLibrary[bookIndex]
     console.log('updated')
 
-    //toggleModal()
+    toggleModal()
     
-    confirmButtonModal.addEventListener('click',addBookToLibrary);
-    //updateBooksDisplay()
+    //confirmButtonModal.addEventListener('click',addBookToLibrary);
+    updateBooksDisplay()
+    clearModal()
     
 }
+
 
 function toggleModal(){
     modal.classList.toggle('show-modal')
@@ -143,9 +146,9 @@ const modalCheckbox = document.querySelector('#checkbox')
 //bind events
 addBook.addEventListener('click', toggleModal)
 confirmButtonModal.addEventListener('click',addBookToLibrary)
-confirmButtonModal.addEventListener('click',clearModal)
+// confirmButtonModal.addEventListener('click',clearModal)
 closeModal.addEventListener('click', toggleModal)
-closeModal.addEventListener('click', clearModal)
+// closeModal.addEventListener('click', clearModal)
 
 deleteButtons.forEach(element => {
     element.addEventListener('click', deleteBook)    
@@ -161,10 +164,4 @@ myLibrary.push(startBook)
 updateBooksDisplay()
 
 //OQUE FALTA IMPLEMENTAR:
-//Finalizar função editBook, ainda não edita da db.
-// Esta editando no db mas clearBook ainda não deixa funcionar 100%
-// Possível solução:
-// Ao chamar o modal do edit, substituir o botão de confirm por um
-// com a função de update.
-
 //Botão se já foi lido ou não
